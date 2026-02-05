@@ -8,14 +8,19 @@ from gmail.routes import router as gmail_router
 
 app = FastAPI()
 
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+IS_PROD = FRONTEND_URL.startswith("https://")
+
 app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SESSION_SECRET", "dev-secret"),
-    https_only=False,
+    https_only=IS_PROD,        # True on Render
+    same_site="none" if IS_PROD else "lax",
 )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[FRONTEND_URL, "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
