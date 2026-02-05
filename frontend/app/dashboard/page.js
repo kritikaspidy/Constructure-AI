@@ -3,9 +3,18 @@
 import { useEffect, useMemo, useRef,useState } from "react";
 
 
-
 const API = process.env.NEXT_PUBLIC_API_BASE;
 console.log("API BASE:", API);
+
+const token =
+  typeof window !== "undefined"
+    ? new URLSearchParams(window.location.search).get("token")
+    : null;
+
+if (token) {
+  sessionStorage.setItem("access_token", token);
+}
+
 
 
 export default function Dashboard() {
@@ -34,7 +43,11 @@ const [authError, setAuthError] = useState(false)
   useEffect(() => {
     async function run() {
        try {
-      const res = await fetch(`${API}/gmail/profile`, { credentials: "include" });
+      const res = await fetch(`${API}/gmail/profile`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+          },
+       });
 
       if (!res.ok) {
         setAuthError(true);
@@ -60,7 +73,10 @@ const data = await res.json();
   async function logout() {
     await fetch(`${API}/auth/logout`, {
       method: "POST",
-      credentials: "include",
+      headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
     });
     window.location.href = "/";
   }
@@ -180,7 +196,10 @@ async function handleSend(override) {
       addMessage("assistant", `Fetching last ${n} emails...`);
 
       const res = await fetch(`${API}/gmail/last?n=${n}`, {
-        credentials: "include",
+        headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
       });
 
       const data = await res.json();
@@ -197,7 +216,10 @@ async function handleSend(override) {
       addMessage("assistant", `Summarizing last ${n} emails...`);
 
       const res = await fetch(`${API}/gmail/last_with_summaries?n=${n}`, {
-        credentials: "include",
+       headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
       });
 
       const data = await res.json();
@@ -215,7 +237,10 @@ async function handleSend(override) {
       addMessage("assistant", `Drafting replies for last ${n} emails...`);
 
       const res = await fetch(`${API}/gmail/last_with_replies?n=${n}`, {
-        credentials: "include",
+        headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
       });
 
       const data = await res.json();
@@ -256,7 +281,10 @@ if (normalized === "yes" && pendingEmail) {
     const res = await fetch(`${API}/gmail/send`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
       body: JSON.stringify(payload),
     });
 
@@ -341,7 +369,10 @@ if (normalized === "yes" && pendingReply) {
     const res = await fetch(`${API}/gmail/send_reply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: {
+  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+},
+
       body: JSON.stringify(payload),
     });
 

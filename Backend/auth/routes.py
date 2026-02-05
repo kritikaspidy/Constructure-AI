@@ -70,7 +70,7 @@ def auth_callback(request: Request):
     }
 
     return RedirectResponse(
-    url=f"{FRONTEND_URL}/dashboard",
+    f"{FRONTEND_URL}/dashboard?token={tokens['access_token']}",
     status_code=302
 )
 
