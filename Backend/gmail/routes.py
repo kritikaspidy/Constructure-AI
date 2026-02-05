@@ -167,4 +167,18 @@ def gmail_send_reply(payload: SendReplyBody, authorization: str = Header(None)):
     result = send_email(
         user["access_token"],
         to=payload.to_email,
-        subject=sub
+        subject=subject,
+        body=payload.body,
+    )
+
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result)
+
+    return {
+        "status": "sent",
+        "to": payload.to_email,
+        "subject": subject,
+        "id": result.get("id"),
+        "threadId": result.get("threadId"),
+        "labelIds": result.get("labelIds"),
+    }
