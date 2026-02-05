@@ -2,7 +2,7 @@
 AI Gmail assistant: OAuth login + chatbot UI + read/summarize, draft/send replies, and delete emails. Built with FastAPI + Next.js. Vercel-ready.
 
 ## Live Demo (Vercel)
-**Frontend:** https://your-app-name.vercel.app
+**Frontend:** https://constructure-ai-cyan.vercel.app
 
 ## Features
 -  Google Login (OAuth 2.0)
