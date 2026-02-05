@@ -45,19 +45,9 @@ python -m venv .venv
 source .venv/bin/activate  
 pip install -r requirements.txt  
 
-Create .env file in backend/
-
-GOOGLE_CLIENT_ID=your_google_client_id  
-GOOGLE_CLIENT_SECRET=your_google_client_secret  
-GOOGLE_REDIRECT_URI=http://localhost:8000/auth/callback  
-
-GROQ_API_KEY=your_groq_api_key  
-GROQ_MODEL=llama-3.1-8b-instant  
-
-FRONTEND_URL=http://localhost:3000  
+Create .env file in backend
 
 Run backend:
-
 uvicorn main:app --reload --port 8000  
 ```
 ---
