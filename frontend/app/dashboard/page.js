@@ -5,6 +5,8 @@ import { useEffect, useMemo, useRef,useState } from "react";
 
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
+console.log("API BASE:", API);
+
 
 export default function Dashboard() {
 const [profile, setProfile] = useState(null);
