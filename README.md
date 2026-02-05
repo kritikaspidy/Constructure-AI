@@ -85,11 +85,11 @@ Add redirect URI:
 http://localhost:8000/auth/callback  
 
 For production:  
-https://your-backend-domain/auth/callback  
+https://constructure-ai-zbhw.onrender.com/auth/callback
 
 Add frontend origins:  
 http://localhost:3000  
-https://your-app-name.vercel.app  
+https://constructure-ai-cyan.vercel.app
 
 Add required test users in OAuth settings  
 
