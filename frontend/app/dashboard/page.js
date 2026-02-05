@@ -34,9 +34,10 @@ const [pendingEmail, setPendingEmail] = useState(null);
     async function run() {
       const res = await fetch(`${API}/gmail/profile`, { credentials: "include" });
       if (!res.ok) {
-        window.location.href = "/";
-        return;
-      }
+  setAuthError(true)
+  return
+}
+
       const data = await res.json();
       setProfile(data);
       setLoading(false);
