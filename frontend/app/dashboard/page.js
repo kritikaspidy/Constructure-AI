@@ -15,6 +15,7 @@ const [lastEmails, setLastEmails] = useState([]);
 const [pendingReply, setPendingReply] = useState(null);
 const [pendingEmail, setPendingEmail] = useState(null);
 
+const [authError, setAuthError] = useState(false)
 
 
   // Chat state
@@ -32,16 +33,22 @@ const [pendingEmail, setPendingEmail] = useState(null);
   // Load profile (and confirm user is authenticated)
   useEffect(() => {
     async function run() {
+       try {
       const res = await fetch(`${API}/gmail/profile`, { credentials: "include" });
-      if (!res.ok) {
-  setAuthError(true)
-  return
-}
 
-      const data = await res.json();
+      if (!res.ok) {
+        setAuthError(true);
+        setLoading(false);
+        return;
+      }
+const data = await res.json();
       setProfile(data);
+    } catch (e) {
+      setAuthError(true);
+    } finally {
       setLoading(false);
     }
+  }
     run();
   }, []);
 
