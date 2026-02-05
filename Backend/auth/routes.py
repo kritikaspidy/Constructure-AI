@@ -11,7 +11,8 @@ from core.config import (
 )
 
 router = APIRouter(prefix="/auth")
-FRONTEND_URL = os.getenv("FRONTEND_URL")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
 
 
 @router.get("/login")
