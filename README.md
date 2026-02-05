@@ -34,21 +34,10 @@ AI Gmail assistant: OAuth login + chatbot UI + read/summarize, draft/send replie
 
 ### Clone the repository
 ```bash
-git clone <your-repo-url>
-cd <project-folder>
+git clone https://github.com/kritikaspidy/Constructure-AI.git
+cd Backend
 
----
-## Project Structure (example)
-```txt
-/
-  backend/        # FastAPI app
-  frontend/       # React or Next.js app
-  README.md
 
----
-## Backend Setup (FastAPI)
-```txt
-/
 
 cd backend
 python -m venv .venv
