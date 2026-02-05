@@ -29,6 +29,14 @@ AI Gmail assistant: OAuth login + chatbot UI + read/summarize, draft/send replie
 - Groq (OpenAI-compatible endpoint)
 - Default model: `llama-3.1-8b-instant` (configurable)
 
+
+## Setup Instructions
+
+### Clone the repository
+```bash
+git clone <your-repo-url>
+cd <project-folder>
+
 ---
 ## Project Structure (example)
 ```txt
@@ -37,5 +45,13 @@ AI Gmail assistant: OAuth login + chatbot UI + read/summarize, draft/send replie
   frontend/       # React or Next.js app
   README.md
 
+---
+## Backend Setup (FastAPI)
+```txt
+/
 
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # macOS/Linux
+pip install -r requirements.txt
 
