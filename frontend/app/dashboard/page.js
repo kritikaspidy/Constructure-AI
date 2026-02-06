@@ -288,6 +288,8 @@ if (normalized === "yes" && pendingEmail) {
 });
 
 
+
+
     if (!res.ok) {
       const errText = await res.text();
       addMessage("assistant", `Failed to send email.\n\n${errText}`);
@@ -348,7 +350,13 @@ if (normalized.startsWith("send reply") || normalized.startsWith("reply")) {
     return;
   }
 
-  setPendingReply({ email_index: idx, body: draft });
+  setPendingReply({
+  index: idx,                 // keep for UI only
+  to_email: email.to_email,
+  subject: email.subject || "",
+  body: draft,
+});
+
   addMessage(
     "assistant",
     `Confirm sending reply for Email #${idx}?\nType: yes / no`
@@ -359,14 +367,22 @@ if (normalized.startsWith("send reply") || normalized.startsWith("reply")) {
 // CONFIRM SEND REPLY
 
 if (normalized === "yes" && pendingReply) {
-  const payload = { ...pendingReply, confirm: true };
+  const payload = {
+  to_email: pendingReply.to_email,
+  subject: pendingReply.subject,
+  body: pendingReply.body,
+  confirm: true,
+};
+
+addMessage("assistant", `Sending reply for Email #${pendingReply.index}...`);
+
   setPendingReply(null);
 
   setBusy(true);
   addMessage("assistant", `Sending reply for Email #${payload.email_index}...`);
 
   try {
-    const res = await fetch(`${API}/gmail/send_reply`, {
+   const res = await fetch(`${API}/gmail/send_reply`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -374,6 +390,7 @@ if (normalized === "yes" && pendingReply) {
   },
   body: JSON.stringify(payload),
 });
+
 
 
     if (!res.ok) {
