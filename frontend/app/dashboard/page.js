@@ -374,7 +374,7 @@ if (normalized === "yes" && pendingReply) {
   confirm: true,
 };
 
-addMessage("assistant", `Sending reply for Email #${pendingReply.index}...`);
+
 
   setPendingReply(null);
 
