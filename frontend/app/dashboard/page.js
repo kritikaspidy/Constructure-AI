@@ -279,14 +279,14 @@ if (normalized === "yes" && pendingEmail) {
 
   try {
     const res = await fetch(`${API}/gmail/send`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+  },
+  body: JSON.stringify(payload),
+});
 
-      body: JSON.stringify(payload),
-    });
 
     if (!res.ok) {
       const errText = await res.text();
@@ -367,14 +367,14 @@ if (normalized === "yes" && pendingReply) {
 
   try {
     const res = await fetch(`${API}/gmail/send_reply`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+  },
+  body: JSON.stringify(payload),
+});
 
-      body: JSON.stringify(payload),
-    });
 
     if (!res.ok) {
       const errText = await res.text();
