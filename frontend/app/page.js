@@ -86,7 +86,22 @@ export default function Home() {
         >
           Sign in with Google
         </button>
+        <footer style={{
+          textAlign: "center",
+          padding: "20px",
+          borderTop: "1px solid #979696",
+          marginTop: "10px"
+        }}>
+          <a href="/privacy-policy" style={{ marginRight: "12px" ,color: "#475569", textDecoration: "none"}}>
+            Privacy Policy
+          </a>
+          <a href="/terms" style={{ color: "#475569", textDecoration: "none"}}>
+            Terms of Service
+          </a>
+        </footer>
       </div>
+      
     </div>
+    
   );
 }
