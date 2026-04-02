@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef,useState } from "react";
+import { FiShield } from "react-icons/fi";
 
 
 const API = process.env.NEXT_PUBLIC_API_BASE;
@@ -511,22 +512,43 @@ useEffect(() => {
           </div>
         </div>
 
-        <button
-          onClick={logout}
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 12,
-            border: "1px solid rgba(0,0,0,0.08)",
-            background: "rgba(255,255,255,0.7)",
-            cursor: "pointer",
-            color: "#353434",
-            fontWeight: "bold",
-          }}
-          title="Logout"
-        >
-          ⎋
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <a
+  href="/privacy-policy"
+  title="Privacy Policy"
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 34,
+    height: 34,
+    borderRadius: 12,
+    border: "1px solid rgba(0,0,0,0.08)",
+    background: "rgba(255,255,255,0.7)",
+    cursor: "pointer",
+    color: "#353434",
+  }}
+>
+  <FiShield size={16} />
+</a>
+
+          <button
+            onClick={logout}
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: 12,
+              border: "1px solid rgba(0,0,0,0.08)",
+              background: "rgba(255,255,255,0.7)",
+              cursor: "pointer",
+              color: "#353434",
+              fontWeight: "bold",
+            }}
+            title="Logout"
+          >
+            ⎋
+          </button>
+        </div>
       </div>
 
       {/* Content area: MUST be flex column + minHeight 0 */}
@@ -755,9 +777,11 @@ useEffect(() => {
             </button>
           </div>
         </div>
+        
       </div>
     </div>
   </div>
+  
 );
 
 
