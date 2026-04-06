@@ -84,7 +84,23 @@ export default function Home() {
               "0 10px 20px rgba(79,70,229,0.35)";
           }}
         >
-          Sign in with Google
+          Real Mode (Google OAuth)
+        </button>
+        <button
+          onClick={() => (window.location.href = "/dashboard?mode=demo")}
+          style={{
+            height: 48,
+            width: "100%",
+            borderRadius: 10,
+            border: "1px solid #cbd5e1",
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: "pointer",
+            color: "#0f172a",
+            background: "rgba(255,255,255,0.9)",
+          }}
+        >
+          Demo Mode (No Login)
         </button>
         <footer style={{
           textAlign: "center",

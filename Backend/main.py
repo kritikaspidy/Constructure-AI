@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from auth.routes import router as auth_router
 from gmail.routes import router as gmail_router
+from demo.store import init_demo_store
 
 app = FastAPI()
 
@@ -28,6 +29,8 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(gmail_router)
+
+init_demo_store()
 
 @app.get("/")
 def health():

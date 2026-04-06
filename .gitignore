@@ -3,4 +3,6 @@
 .env
 Backend/.env
 Frontend/.env.local
+__pycache__/
+*.pyc
 

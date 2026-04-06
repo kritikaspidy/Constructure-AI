@@ -11,9 +11,17 @@ const token =
   typeof window !== "undefined"
     ? new URLSearchParams(window.location.search).get("token")
     : null;
+const modeFromQuery =
+  typeof window !== "undefined"
+    ? new URLSearchParams(window.location.search).get("mode")
+    : null;
+const appMode = modeFromQuery === "demo" ? "demo" : "real";
 
 if (token) {
   sessionStorage.setItem("access_token", token);
+}
+if (appMode === "demo") {
+  sessionStorage.removeItem("access_token");
 }
 
 
@@ -26,6 +34,17 @@ const [pendingReply, setPendingReply] = useState(null);
 const [pendingEmail, setPendingEmail] = useState(null);
 
 const [authError, setAuthError] = useState(false)
+const mode = appMode;
+
+  function withMode(path) {
+    const sep = path.includes("?") ? "&" : "?";
+    return `${API}${path}${sep}mode=${mode}`;
+  }
+
+  function authHeaders() {
+    if (mode === "demo") return {};
+    return { Authorization: `Bearer ${sessionStorage.getItem("access_token")}` };
+  }
 
 
   // Chat state
@@ -44,11 +63,9 @@ const [authError, setAuthError] = useState(false)
   useEffect(() => {
     async function run() {
        try {
-      const res = await fetch(`${API}/gmail/profile`, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-          },
-       });
+      const res = await fetch(withMode("/gmail/profile"), {
+        headers: authHeaders(),
+      });
 
       if (!res.ok) {
         setAuthError(true);
@@ -72,13 +89,13 @@ const data = await res.json();
   }, [profile]);
 
   async function logout() {
-    await fetch(`${API}/auth/logout`, {
-      method: "POST",
-      headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
-
-    });
+    if (mode === "real") {
+      await fetch(`${API}/auth/logout`, {
+        method: "POST",
+        headers: authHeaders(),
+      });
+    }
+    sessionStorage.removeItem("access_token");
     window.location.href = "/";
   }
 
@@ -196,11 +213,8 @@ async function handleSend(override) {
       setBusy(true);
       addMessage("assistant", `Fetching last ${n} emails...`);
 
-      const res = await fetch(`${API}/gmail/last?n=${n}`, {
-        headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
-
+      const res = await fetch(withMode(`/gmail/last?n=${n}`), {
+        headers: authHeaders(),
       });
 
       const data = await res.json();
@@ -216,11 +230,8 @@ async function handleSend(override) {
       setBusy(true);
       addMessage("assistant", `Summarizing last ${n} emails...`);
 
-      const res = await fetch(`${API}/gmail/last_with_summaries?n=${n}`, {
-       headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
-
+      const res = await fetch(withMode(`/gmail/last_with_summaries?n=${n}`), {
+        headers: authHeaders(),
       });
 
       const data = await res.json();
@@ -237,11 +248,8 @@ async function handleSend(override) {
       setBusy(true);
       addMessage("assistant", `Drafting replies for last ${n} emails...`);
 
-      const res = await fetch(`${API}/gmail/last_with_replies?n=${n}`, {
-        headers: {
-  Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
-},
-
+      const res = await fetch(withMode(`/gmail/last_with_replies?n=${n}`), {
+        headers: authHeaders(),
       });
 
       const data = await res.json();
@@ -279,11 +287,11 @@ if (normalized === "yes" && pendingEmail) {
   addMessage("assistant", "Sending email...");
 
   try {
-    const res = await fetch(`${API}/gmail/send`, {
+    const res = await fetch(withMode("/gmail/send"), {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+    ...authHeaders(),
   },
   body: JSON.stringify(payload),
 });
@@ -383,11 +391,11 @@ if (normalized === "yes" && pendingReply) {
   addMessage("assistant", `Sending reply for Email #${payload.email_index}...`);
 
   try {
-   const res = await fetch(`${API}/gmail/send_reply`, {
+   const res = await fetch(withMode("/gmail/send_reply"), {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+    ...authHeaders(),
   },
   body: JSON.stringify(payload),
 });
